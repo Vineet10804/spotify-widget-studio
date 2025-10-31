@@ -15,6 +15,15 @@ export interface Track {
   plays?: string;
   time?: string;
   image: string;
+  liked?: boolean;
+}
+
+export interface Artist {
+  id: number;
+  name: string;
+  genre: string;
+  followers: string;
+  image: string;
 }
 
 const allTracks: Track[] = [
@@ -69,9 +78,11 @@ interface MusicContextType {
   isPlaying: boolean;
   isLiked: boolean;
   allTracks: Track[];
+  likedTracks: Track[];
   playTrack: (track: Track) => void;
   togglePlay: () => void;
   toggleLike: () => void;
+  toggleTrackLike: (trackId: number) => void;
   nextTrack: () => void;
   previousTrack: () => void;
   seekTo: (percentage: number) => void;
@@ -80,9 +91,12 @@ interface MusicContextType {
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 export const MusicProvider = ({ children }: { children: ReactNode }) => {
+  const [tracks, setTracks] = useState<Track[]>(allTracks);
   const [currentTrack, setCurrentTrack] = useState<Track>(allTracks[0]);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
+
+  const likedTracks = tracks.filter(track => track.liked);
 
   const playTrack = (track: Track) => {
     setCurrentTrack(track);
@@ -94,7 +108,26 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const toggleLike = () => {
-    setIsLiked(!isLiked);
+    const newLikedState = !isLiked;
+    setIsLiked(newLikedState);
+    
+    // Update the track in the tracks array
+    setTracks(tracks.map(t => 
+      t.id === currentTrack.id ? { ...t, liked: newLikedState } : t
+    ));
+    setCurrentTrack({ ...currentTrack, liked: newLikedState });
+  };
+
+  const toggleTrackLike = (trackId: number) => {
+    setTracks(tracks.map(t => 
+      t.id === trackId ? { ...t, liked: !t.liked } : t
+    ));
+    
+    // If it's the current track, update isLiked state
+    if (currentTrack.id === trackId) {
+      setIsLiked(!isLiked);
+      setCurrentTrack({ ...currentTrack, liked: !currentTrack.liked });
+    }
   };
 
   const nextTrack = () => {
@@ -131,10 +164,12 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
         currentTrack,
         isPlaying,
         isLiked,
-        allTracks,
+        allTracks: tracks,
+        likedTracks,
         playTrack,
         togglePlay,
         toggleLike,
+        toggleTrackLike,
         nextTrack,
         previousTrack,
         seekTo,

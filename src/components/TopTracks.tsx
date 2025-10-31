@@ -1,10 +1,11 @@
 import { Card } from "@/components/ui/card";
-import { Play, Music2 } from "lucide-react";
+import { Play, Music2, Heart } from "lucide-react";
 import { useMusic } from "@/contexts/MusicContext";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 export const TopTracks = () => {
-  const { allTracks, currentTrack, isPlaying, playTrack } = useMusic();
+  const { allTracks, currentTrack, isPlaying, playTrack, toggleTrackLike } = useMusic();
   const { toast } = useToast();
 
   const handleTrackClick = (track: typeof allTracks[0]) => {
@@ -75,12 +76,31 @@ export const TopTracks = () => {
                   {track.artist}
                 </p>
               </div>
-              
-              <span className={`text-sm font-medium ${
-                isCurrentTrack ? 'text-primary' : 'text-muted-foreground'
-              }`}>
-                {track.plays}
-              </span>
+
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="opacity-0 group-hover:opacity-100 smooth-transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleTrackLike(track.id);
+                    toast({
+                      title: track.liked ? "Removed from Liked Songs" : "Added to Liked Songs",
+                      description: track.title,
+                      duration: 2000,
+                    });
+                  }}
+                >
+                  <Heart className={`w-4 h-4 smooth-transition ${track.liked ? 'fill-primary text-primary' : ''}`} />
+                </Button>
+                
+                <span className={`text-sm font-medium ${
+                  isCurrentTrack ? 'text-primary' : 'text-muted-foreground'
+                }`}>
+                  {track.plays}
+                </span>
+              </div>
             </div>
           );
         })}

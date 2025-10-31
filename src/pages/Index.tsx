@@ -1,50 +1,34 @@
 import { NowPlaying } from "@/components/NowPlaying";
 import { TopTracks } from "@/components/TopTracks";
 import { RecentlyPlayed } from "@/components/RecentlyPlayed";
-import { MusicProvider } from "@/contexts/MusicContext";
-import { Music } from "lucide-react";
 
 const Index = () => {
   return (
-    <MusicProvider>
-      <div className="min-h-screen bg-background p-4 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
-        <header className="text-center space-y-4 animate-slide-up">
-          <div className="flex items-center justify-center gap-3">
-            <Music className="w-12 h-12 text-primary spotify-glow animate-pulse-glow" />
-            <h1 className="text-5xl font-bold">
-              <span className="text-primary">Spotify</span> Player
-            </h1>
-          </div>
-          <p className="text-xl text-foreground/80 max-w-2xl mx-auto font-medium">
-            Interactive music player with beautiful visualizations
-          </p>
-        </header>
+    <div className="space-y-8">
+      {/* Header */}
+      <header className="space-y-2 animate-slide-up">
+        <h1 className="text-4xl font-bold">Good evening</h1>
+        <p className="text-foreground/80">
+          Your personalized music dashboard
+        </p>
+      </header>
 
-        {/* Now Playing Widget */}
-        <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <NowPlaying />
+      {/* Now Playing Widget */}
+      <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
+        <NowPlaying />
+      </div>
+
+      {/* Grid Layout for Other Widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <TopTracks />
         </div>
-
-        {/* Grid Layout for Other Widgets */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <TopTracks />
-          </div>
-          
-          <div className="animate-slide-up lg:col-span-2" style={{ animationDelay: '0.3s' }}>
-            <RecentlyPlayed />
-          </div>
-        </div>
-
-          {/* Footer */}
-          <footer className="text-center text-muted-foreground text-sm animate-slide-up" style={{ animationDelay: '0.4s' }}>
-            <p>Built with React, TypeScript, and Tailwind CSS</p>
-          </footer>
+        
+        <div className="animate-slide-up lg:col-span-2" style={{ animationDelay: '0.3s' }}>
+          <RecentlyPlayed />
         </div>
       </div>
-    </MusicProvider>
+    </div>
   );
 };
 
