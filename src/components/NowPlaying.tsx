@@ -3,10 +3,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMusic } from "@/contexts/MusicContext";
 import { useToast } from "@/hooks/use-toast";
+import { useRef, useState } from "react";
 
 export const NowPlaying = () => {
-  const { currentTrack, isPlaying, isLiked, togglePlay, toggleLike, nextTrack, previousTrack } = useMusic();
+  const { currentTrack, isPlaying, isLiked, togglePlay, toggleLike, nextTrack, previousTrack, seekTo } = useMusic();
   const { toast } = useToast();
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleNext = () => {
     nextTrack();
@@ -24,6 +27,22 @@ export const NowPlaying = () => {
       description: "Playing previous song...",
       duration: 2000,
     });
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+      seekTo(Math.max(0, Math.min(100, percentage)));
+    }
+  };
+
+  const handleProgressDrag = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging && progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+      seekTo(Math.max(0, Math.min(100, percentage)));
+    }
   };
 
   return (
@@ -78,15 +97,25 @@ export const NowPlaying = () => {
         </div>
 
         <div className="mb-4">
-          <div className="flex justify-between text-sm text-muted-foreground mb-2">
-            <span>{currentTrack.currentTime}</span>
-            <span>{currentTrack.duration}</span>
+          <div className="flex justify-between text-sm font-medium mb-2">
+            <span className="text-foreground">{currentTrack.currentTime}</span>
+            <span className="text-muted-foreground">{currentTrack.duration}</span>
           </div>
-          <div className="h-1.5 bg-secondary rounded-full overflow-hidden cursor-pointer group hover:h-2 smooth-transition">
+          <div 
+            ref={progressBarRef}
+            className="h-2 bg-secondary/80 rounded-full overflow-hidden cursor-pointer group hover:h-2.5 smooth-transition relative"
+            onClick={handleProgressClick}
+            onMouseDown={() => setIsDragging(true)}
+            onMouseUp={() => setIsDragging(false)}
+            onMouseLeave={() => setIsDragging(false)}
+            onMouseMove={handleProgressDrag}
+          >
             <div 
-              className="h-full bg-primary spotify-glow smooth-transition group-hover:bg-primary/90" 
+              className="h-full bg-gradient-to-r from-primary to-primary/80 spotify-glow smooth-transition relative" 
               style={{ width: `${currentTrack.progress}%` }}
-            />
+            >
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 smooth-transition shadow-lg" />
+            </div>
           </div>
         </div>
 

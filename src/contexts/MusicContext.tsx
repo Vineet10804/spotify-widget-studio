@@ -74,6 +74,7 @@ interface MusicContextType {
   toggleLike: () => void;
   nextTrack: () => void;
   previousTrack: () => void;
+  seekTo: (percentage: number) => void;
 }
 
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
@@ -110,6 +111,20 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
     setIsPlaying(true);
   };
 
+  const seekTo = (percentage: number) => {
+    const totalSeconds = parseInt(currentTrack.duration.split(':')[0]) * 60 + 
+                        parseInt(currentTrack.duration.split(':')[1]);
+    const newSeconds = Math.floor((percentage / 100) * totalSeconds);
+    const minutes = Math.floor(newSeconds / 60);
+    const seconds = newSeconds % 60;
+    
+    setCurrentTrack({
+      ...currentTrack,
+      currentTime: `${minutes}:${seconds.toString().padStart(2, '0')}`,
+      progress: percentage,
+    });
+  };
+
   return (
     <MusicContext.Provider
       value={{
@@ -122,6 +137,7 @@ export const MusicProvider = ({ children }: { children: ReactNode }) => {
         toggleLike,
         nextTrack,
         previousTrack,
+        seekTo,
       }}
     >
       {children}

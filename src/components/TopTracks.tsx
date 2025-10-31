@@ -65,14 +65,22 @@ export const TopTracks = () => {
               
               <div className="flex-1 min-w-0">
                 <p className={`font-semibold truncate smooth-transition ${
-                  isCurrentTrack ? 'text-primary' : ''
+                  isCurrentTrack ? 'text-primary' : 'text-foreground'
                 }`}>
                   {track.title}
                 </p>
-                <p className="text-sm text-muted-foreground truncate">{track.artist}</p>
+                <p className={`text-sm truncate smooth-transition ${
+                  isCurrentTrack ? 'text-primary/70' : 'text-muted-foreground'
+                }`}>
+                  {track.artist}
+                </p>
               </div>
               
-              <span className="text-sm text-muted-foreground">{track.plays}</span>
+              <span className={`text-sm font-medium ${
+                isCurrentTrack ? 'text-primary' : 'text-muted-foreground'
+              }`}>
+                {track.plays}
+              </span>
             </div>
           );
         })}

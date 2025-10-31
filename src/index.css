@@ -17,24 +17,24 @@ All colors MUST be HSL.
     --popover: 0 0% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 141 73% 42%;
+    --primary: 141 73% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 14%;
+    --secondary: 0 0% 16%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 141 73% 42%;
+    --accent: 141 73% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 141 73% 42%;
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 141 73% 45%;
 
     --radius: 1rem;
 

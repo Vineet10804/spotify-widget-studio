@@ -14,11 +14,11 @@ const Index = () => {
           <div className="flex items-center justify-center gap-3">
             <Music className="w-12 h-12 text-primary spotify-glow animate-pulse-glow" />
             <h1 className="text-5xl font-bold">
-              Spotify <span className="text-primary">Widgets</span>
+              <span className="text-primary">Spotify</span> Player
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Beautiful music visualizations with modern design
+          <p className="text-xl text-foreground/80 max-w-2xl mx-auto font-medium">
+            Interactive music player with beautiful visualizations
           </p>
         </header>
 

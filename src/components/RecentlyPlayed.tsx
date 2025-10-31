@@ -56,12 +56,16 @@ export const RecentlyPlayed = () => {
               </div>
               
               <h3 className={`font-semibold truncate mb-1 smooth-transition ${
-                isCurrentTrack ? 'text-primary' : ''
+                isCurrentTrack ? 'text-primary' : 'text-foreground'
               }`}>
                 {track.title}
               </h3>
-              <p className="text-sm text-muted-foreground truncate mb-2">{track.artist}</p>
-              <p className="text-xs text-muted-foreground/60">{recentTimes[index]}</p>
+              <p className={`text-sm truncate mb-2 smooth-transition ${
+                isCurrentTrack ? 'text-primary/70' : 'text-muted-foreground'
+              }`}>
+                {track.artist}
+              </p>
+              <p className="text-xs text-muted-foreground/70 font-medium">{recentTimes[index]}</p>
             </div>
           );
         })}
