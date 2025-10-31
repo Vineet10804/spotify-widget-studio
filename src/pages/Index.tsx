@@ -1,12 +1,14 @@
 import { NowPlaying } from "@/components/NowPlaying";
 import { TopTracks } from "@/components/TopTracks";
 import { RecentlyPlayed } from "@/components/RecentlyPlayed";
+import { MusicProvider } from "@/contexts/MusicContext";
 import { Music } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <MusicProvider>
+      <div className="min-h-screen bg-background p-4 md:p-8">
+        <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <header className="text-center space-y-4 animate-slide-up">
           <div className="flex items-center justify-center gap-3">
@@ -36,12 +38,13 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="text-center text-muted-foreground text-sm animate-slide-up" style={{ animationDelay: '0.4s' }}>
-          <p>Built with React, TypeScript, and Tailwind CSS</p>
-        </footer>
+          {/* Footer */}
+          <footer className="text-center text-muted-foreground text-sm animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            <p>Built with React, TypeScript, and Tailwind CSS</p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </MusicProvider>
   );
 };
 
